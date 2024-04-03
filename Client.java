@@ -43,6 +43,7 @@ public class Client {
 
                 // Esce dal ciclo se l'utente digita "exit".
                 if (message.equalsIgnoreCase("exit")) {
+                    out.println(username + " ha lasciato la chat.");
                     break;
                 }
 
@@ -67,6 +68,7 @@ public class Client {
                 // Invia il messaggio al server.
                 out.println(username + ": " + message);
             }
+
 
         } catch (IOException e) {
             System.out.println("Si è verificato un errore di rete: " + e.getMessage());

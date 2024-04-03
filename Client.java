@@ -15,22 +15,16 @@ public class Client {
         String username = args[2];
 
         try (Socket socket = new Socket(serverIp, port);
-             Scanner userInput = new Scanner(System.in);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+                Scanner userInput = new Scanner(System.in);
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             // Invio dell'username al server subito dopo la connessione.
             out.println(username);
             System.out.println("Connected to server. Start typing messages (type 'exit' to quit).");
 
-            // Chiede all'utente se desidera criptare i messaggi.
-            System.out.println("Vuoi criptare i messaggi che invierai? (si/no)");
-            String scelta = userInput.nextLine();
-
             // Istanza di EnigmaSimulator, se richiesto dall'utente.
-            EnigmaSimulator enigmaSimulator = null;
-            if (scelta.equalsIgnoreCase("si")) {
-                enigmaSimulator = new EnigmaSimulator(); // Assume che il costruttore non lanci eccezioni. Se ciò può accadere, gestiscile qui.
-            }
+            EnigmaSimulator enigmaSimulator = new EnigmaSimulator();
+            boolean enigmaOn = false; // booleana enigmaOn, false indica non attivo.
 
             // Thread per ascoltare e stampare i messaggi in arrivo dal server.
             Thread serverListener = new Thread(() -> {
@@ -43,7 +37,6 @@ public class Client {
                 }
             });
             serverListener.start();
-
             // Ciclo principale per l'invio di messaggi.
             while (true) {
                 String message = userInput.nextLine();
@@ -53,8 +46,21 @@ public class Client {
                     break;
                 }
 
-                // Cripta il messaggio se l'utente ha scelto di farlo.
-                if (enigmaSimulator != null) {
+                if (message.equalsIgnoreCase("enigma_on")) { // Quando l'utente scrive il comando enigma_on in chat
+                    System.out.println("Message encrypting ON");// Verrà stampato un messaggio di avviso
+                    enigmaOn = true;// E la variabile diventerà true, attivando l'encrypting a riga 60
+                    continue;
+
+                }
+
+                if (message.equalsIgnoreCase("enigma_off")) {// Quando l'utente scrive il comando enigma_on in chat
+                    System.out.println("Message encrypting OFF");// Verrà stampato un messaggio di avviso
+                    enigmaOn = false;// E la variabile diventerà false, disattivando l'encrypting a riga 60
+                    continue;
+                }
+
+                // Cripta il messaggio se l'utente ha scritto il comando enigma_on
+                if (enigmaOn == true) {
                     message = enigmaSimulator.cifraDecifra(message, true);
                 }
 

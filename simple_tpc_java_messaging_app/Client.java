@@ -15,8 +15,8 @@ public class Client {
         String username = args[2];
 
         try (Socket socket = new Socket(serverIp, port);
-             Scanner userInput = new Scanner(System.in);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+                Scanner userInput = new Scanner(System.in);
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             // Invio dell'username al server subito dopo la connessione.
             out.println(username);
@@ -29,7 +29,8 @@ public class Client {
             // Istanza di EnigmaSimulator, se richiesto dall'utente.
             EnigmaSimulator enigmaSimulator = null;
             if (scelta.equalsIgnoreCase("si")) {
-                enigmaSimulator = new EnigmaSimulator(); // Assume che il costruttore non lanci eccezioni. Se ciò può accadere, gestiscile qui.
+                enigmaSimulator = new EnigmaSimulator(); // Assume che il costruttore non lanci eccezioni. Se ciò può
+                                                         // accadere, gestiscile qui.
             }
 
             // Thread per ascoltare e stampare i messaggi in arrivo dal server.

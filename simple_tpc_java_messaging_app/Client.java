@@ -46,15 +46,17 @@ public class Client {
                     break;
                 }
 
-                if (message.equalsIgnoreCase("enigma_on")) {
-                    enigmaOn = true;
+                if (message.equalsIgnoreCase("enigma_on")) { // Quando l'utente scrive il comando enigma_on in chat
+                    System.out.println("Message encrypting ON");// Verrà stampato un messaggio di avviso
+                    enigmaOn = true;// E la variabile diventerà true, attivando l'encrypting a riga 60
                 }
 
-                if (message.equalsIgnoreCase("enigma_off")) {
-                    enigmaOn = false;
+                if (message.equalsIgnoreCase("enigma_off")) {// Quando l'utente scrive il comando enigma_on in chat
+                    System.out.println("Message encrypting OFF");// Verrà stampato un messaggio di avviso
+                    enigmaOn = false;// E la variabile diventerà false, disattivando l'encrypting a riga 60
                 }
 
-                // Cripta il messaggio se l'utente ha scelto di farlo.
+                // Cripta il messaggio se l'utente ha scritto il comando enigma_on
                 if (enigmaOn == true) {
                     message = enigmaSimulator.cifraDecifra(message, true);
                 }

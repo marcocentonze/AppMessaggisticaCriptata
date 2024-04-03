@@ -1,3 +1,4 @@
+
 // Importa le classi necessarie per gestire input/output e networking.
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,7 +15,6 @@ public class Server {
     private static Set<PrintWriter> clientWriters = new HashSet<>();
     private static FileWriter fileWriter; // Aggiunto per la scrittura su file
     private static int usersPresent;
-
 
     private static String onlineUsers;
 
@@ -57,7 +57,6 @@ public class Server {
                 broadcast(welcomeMessage);
                 clientWriters.add(out);
                 usersPresent++;
-                
 
                 broadcast(onlineUsers);
 
@@ -78,7 +77,7 @@ public class Server {
             } finally {
                 if (out != null) {
                     clientWriters.remove(out);
-                    usersPresent--;     
+                    usersPresent--;
                 }
                 try {
                     clientSocket.close();
@@ -99,6 +98,6 @@ public class Server {
                 System.out.println("Tentativo di inviare un messaggio vuoto o null.");
             }
         }
-        
+
     }
 }

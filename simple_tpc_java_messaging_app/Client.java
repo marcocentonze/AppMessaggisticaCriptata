@@ -22,16 +22,9 @@ public class Client {
             out.println(username);
             System.out.println("Connected to server. Start typing messages (type 'exit' to quit).");
 
-            // Chiede all'utente se desidera criptare i messaggi.
-            System.out.println("Vuoi criptare i messaggi che invierai? (si/no)");
-            String scelta = userInput.nextLine();
-
             // Istanza di EnigmaSimulator, se richiesto dall'utente.
-            EnigmaSimulator enigmaSimulator = null;
-            if (scelta.equalsIgnoreCase("si")) {
-                enigmaSimulator = new EnigmaSimulator(); // Assume che il costruttore non lanci eccezioni. Se ciò può
-                                                         // accadere, gestiscile qui.
-            }
+            EnigmaSimulator enigmaSimulator = new EnigmaSimulator();
+            boolean enigmaOn = false; // booleana enigmaOn, false indica non attivo.
 
             // Thread per ascoltare e stampare i messaggi in arrivo dal server.
             Thread serverListener = new Thread(() -> {
@@ -44,7 +37,6 @@ public class Client {
                 }
             });
             serverListener.start();
-
             // Ciclo principale per l'invio di messaggi.
             while (true) {
                 String message = userInput.nextLine();
@@ -54,8 +46,16 @@ public class Client {
                     break;
                 }
 
+                if (message.equalsIgnoreCase("enigma_on")) {
+                    enigmaOn = true;
+                }
+
+                if (message.equalsIgnoreCase("enigma_off")) {
+                    enigmaOn = false;
+                }
+
                 // Cripta il messaggio se l'utente ha scelto di farlo.
-                if (enigmaSimulator != null) {
+                if (enigmaOn == true) {
                     message = enigmaSimulator.cifraDecifra(message, true);
                 }
 

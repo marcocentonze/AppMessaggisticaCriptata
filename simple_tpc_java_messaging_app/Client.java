@@ -15,8 +15,8 @@ public class Client {
         String username = args[2];
 
         try (Socket socket = new Socket(serverIp, port);
-             Scanner userInput = new Scanner(System.in);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+                Scanner userInput = new Scanner(System.in);
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             // Invio dell'username al server subito dopo la connessione.
             out.println(username);
@@ -25,16 +25,12 @@ public class Client {
             // Chiede all'utente se desidera criptare i messaggi.
             System.out.println("Vuoi criptare i messaggi con il cifrario di Cesare? Si / No");
             String scelta = userInput.nextLine();
-            System.out.println("di quante posizioni vuoi shiftare le lettere?");
-            int sceltaShift = userInput.nextInt();
-
         
 
             // Thread per ascoltare e stampare i messaggi in arrivo dal server.
             Thread serverListener = new Thread(() -> {
                 try (Scanner in = new Scanner(socket.getInputStream())) {
                     while (in.hasNextLine()) {
-                        System.out.println(in.nextLine());
                     }
                 } catch (IOException e) {
                     System.out.println("Errore durante la lettura dal server: " + e.getMessage());
@@ -52,16 +48,16 @@ public class Client {
                 }
 
                 // Cripta il messaggio se l'utente ha scelto di farlo.
-               if(scelta.equalsIgnoreCase("yes")){
-                  CifrarioDiCesare cifrarioDiCesare = new CifrarioDiCesare();
-                  CifrarioDiCesare.cripta(message, sceltaShift);
-                  out.println(username + ": " + message);
-                  System.out.println(CifrarioDiCesare.cripta(message, sceltaShift));
-              }
-               }
+                if (scelta.equalsIgnoreCase("si")) {
+                    System.out.println("di quante posizioni vuoi shiftare le lettere?");
+                    int sceltaShift = userInput.nextInt();
+                    CifrarioDiCesare cifrarioDiCesare = new CifrarioDiCesare();
+                    String messaggioCriptato = CifrarioDiCesare.cripta(message, sceltaShift);
+                    out.println(username + ": " + messaggioCriptato);
+                }
+            }
 
-                // Invia il messaggio al server.
-              
+            // Invia il messaggio al server.
 
         } catch (IOException e) {
             System.out.println("Si è verificato un errore di rete: " + e.getMessage());

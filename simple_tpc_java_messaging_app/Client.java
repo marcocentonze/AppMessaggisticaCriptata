@@ -23,14 +23,12 @@ public class Client {
             System.out.println("Connected to server. Start typing messages (type 'exit' to quit).");
 
             // Chiede all'utente se desidera criptare i messaggi.
-            System.out.println("Vuoi criptare i messaggi che invierai? (si/no)");
+            System.out.println("Vuoi criptare i messaggi con il cifrario di Cesare? Si / No");
             String scelta = userInput.nextLine();
+            System.out.println("di quante posizioni vuoi shiftare le lettere?");
+            int sceltaShift = userInput.nextInt();
 
-            // Istanza di EnigmaSimulator, se richiesto dall'utente.
-            EnigmaSimulator enigmaSimulator = null;
-            if (scelta.equalsIgnoreCase("si")) {
-                enigmaSimulator = new EnigmaSimulator(); // Assume che il costruttore non lanci eccezioni. Se ciò può accadere, gestiscile qui.
-            }
+        
 
             // Thread per ascoltare e stampare i messaggi in arrivo dal server.
             Thread serverListener = new Thread(() -> {
@@ -54,13 +52,16 @@ public class Client {
                 }
 
                 // Cripta il messaggio se l'utente ha scelto di farlo.
-                if (enigmaSimulator != null) {
-                    message = enigmaSimulator.cifraDecifra(message, true);
-                }
+               if(scelta.equalsIgnoreCase("yes")){
+                  CifrarioDiCesare cifrarioDiCesare = new CifrarioDiCesare();
+                  CifrarioDiCesare.cripta(message, sceltaShift);
+                  out.println(username + ": " + message);
+                  System.out.println(CifrarioDiCesare.cripta(message, sceltaShift));
+              }
+               }
 
                 // Invia il messaggio al server.
-                out.println(username + ": " + message);
-            }
+              
 
         } catch (IOException e) {
             System.out.println("Si è verificato un errore di rete: " + e.getMessage());

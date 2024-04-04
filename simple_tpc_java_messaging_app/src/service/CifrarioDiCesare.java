@@ -1,3 +1,4 @@
+package src.service;
 
 import java.util.Scanner;
 
@@ -41,13 +42,13 @@ public class CifrarioDiCesare {
 
     // metodo per criptare, che prende come parametri la parola inserita dall'utente
     // ed il numero di shift
-    protected static String cripta(String testo, int shift) {
+    public static String cripta(String testo, int shift) {
         return trasforma(testo, shift);
     }
 
     // metodo per decriptare, che prende come parametri la parola inserita
     // dall'utente ed il numero di shift
-    protected static String decripta(String testo, int shift) {
+    public static String decripta(String testo, int shift) {
         return trasforma(testo, -shift);
     }
 
